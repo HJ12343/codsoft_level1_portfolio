@@ -1,20 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ==========================================================================
-  // Header / Sticky Navbar & Scroll Effects
-  // ==========================================================================
   const navbar = document.getElementById('navbar');
   const scrollToTopBtn = document.getElementById('scroll-to-top');
 
   window.addEventListener('scroll', () => {
-    // Toggle sticky navbar styling
+
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
 
-    // Toggle Back-To-Top button visibility
     if (window.scrollY > 500) {
       scrollToTopBtn.classList.add('show');
     } else {
@@ -22,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Smooth scroll back to top when button clicked
   scrollToTopBtn.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
@@ -30,9 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ==========================================================================
-  // Mobile Hamburger Toggle Menu
-  // ==========================================================================
   const menuToggle = document.getElementById('menu-toggle');
   const navMenu = document.getElementById('nav-menu');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -51,25 +43,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   menuToggle.addEventListener('click', toggleMenu);
 
-  // Close menu when clicking nav link
   navLinks.forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
-  // Close mobile menu if clicked outside
   document.addEventListener('click', (event) => {
     if (!navMenu.contains(event.target) && !menuToggle.contains(event.target) && navMenu.classList.contains('open')) {
       closeMenu();
     }
   });
 
-  // ==========================================================================
-  // Active Navigation Link Highlighting on Scroll
-  // ==========================================================================
   const sections = document.querySelectorAll('section');
 
   const activeLinkOnScroll = () => {
-    let scrollPos = window.scrollY + 150; // offset for nav header height
+    let scrollPos = window.scrollY + 150;
 
     sections.forEach(section => {
       if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
@@ -85,29 +72,25 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.addEventListener('scroll', activeLinkOnScroll);
-  activeLinkOnScroll(); // Trigger initially on page load
+  activeLinkOnScroll();
 
-  // ==========================================================================
-  // Projects Category Filter Implementation
-  // ==========================================================================
   const filterButtons = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
 
   filterButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      // Toggle active state on buttons
+
       filterButtons.forEach(button => button.classList.remove('active'));
       e.target.classList.add('active');
 
       const filterValue = e.target.getAttribute('data-filter');
 
-      // Filter project cards using CSS display hide utility
       projectCards.forEach(card => {
         const cardCategory = card.getAttribute('data-category');
 
         if (filterValue === 'all' || filterValue === cardCategory) {
           card.classList.remove('hide');
-          // Restart entrance animations if visible
+
           card.classList.add('reveal');
         } else {
           card.classList.add('hide');
@@ -116,9 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ==========================================================================
-  // Entrance Scroll Reveal Animations (Intersection Observer)
-  // ==========================================================================
   const revealItems = document.querySelectorAll('.reveal-item');
   const skillsCards = document.querySelectorAll('.skills-card');
 
@@ -126,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('reveal');
-        // Unobserve after showing item once to preserve scroll status
+
         observer.unobserve(entry.target);
       }
     });
@@ -139,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     revealObserver.observe(item);
   });
 
-  // Skills progressive bars visual loading animation trigger
   const skillsObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -155,9 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     skillsObserver.observe(card);
   });
 
-  // ==========================================================================
-  // Contact Form Mock Submission & Validations
-  // ==========================================================================
   const contactForm = document.getElementById('contact-form');
   const btnSubmit = document.getElementById('btn-submit');
   const successOverlay = document.getElementById('form-success-overlay');
@@ -166,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Trigger basic validation checks
     const name = document.getElementById('form-name').value.trim();
     const email = document.getElementById('form-email').value.trim();
     const subject = document.getElementById('form-subject').value.trim();
@@ -177,19 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Set submit button loading state
     btnSubmit.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin icon-right"></i>';
     btnSubmit.disabled = true;
 
-    // Simulate Server API Delay
     setTimeout(() => {
-      // Toggle submission visual overlay feedback card
+
       successOverlay.classList.add('active');
-      
-      // Reset form variables
+
       contactForm.reset();
-      
-      // Revert submit button back to original state
+
       btnSubmit.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane icon-right"></i>';
       btnSubmit.disabled = false;
     }, 1500);
